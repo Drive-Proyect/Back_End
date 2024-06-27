@@ -4,6 +4,8 @@ using Drive.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Drive.Models;
+using Drive.Services.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
@@ -20,6 +22,29 @@ builder.Services.AddDbContext<DriveContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("DriveConnection"),
     Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.20-mysql"))
 );
+//registro de las interfaces al contenedor de dependencias
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+
+//Jwt
+builder.Services.AddAuthentication(item =>
+    {
+        item.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        item.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    }).AddJwtBearer(item =>
+    {
+    item.RequireHttpsMetadata = true;
+    item.SaveToken = true;
+    item.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("gSI=eFk4G3ZRy`(Kg£+<X(1VI4)5=RKw")),
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ClockSkew=TimeSpan.Zero
+    };
+});
+var _jwtsettings = builder.Configuration.GetSection("JwtSettings");
+builder.Services.Configure<JwtSettings>(_jwtsettings);
 
 var app = builder.Build();
 
