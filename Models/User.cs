@@ -8,14 +8,15 @@ public class User
     public int Id { get; set; }
 
     [Required]
-    public required string Name { get; set; }
-
-    [Required]
-    public required string LastName { get; set; }
+    public required string UserName { get; set; }
 
     [Required]
     public required string Email { get; set; }
 
     [Required]
     public required string Password { get; set; }
+
+    public List<Folder>? Folders { get; set; }
+
+    public List<Filee>? Files { get; set; }
 }

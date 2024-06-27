@@ -28,4 +28,8 @@ public class Folder
     public required int UserId { get; set; }
 
     public User? User { get; set; }
+
+    public int? FolderId { get; set; }
+
+    public Folder? ParentFolder { get; set; }
 }
