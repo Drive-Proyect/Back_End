@@ -46,6 +46,11 @@ builder.Services.AddAuthentication(item =>
 var _jwtsettings = builder.Configuration.GetSection("JwtSettings");
 builder.Services.Configure<JwtSettings>(_jwtsettings);
 
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IMailerSendRepository, MailerSendRepository>();
+
+
+builder.Services.AddHttpClient();
 var app = builder.Build();
 
 // Cors
