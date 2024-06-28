@@ -28,7 +28,7 @@ namespace Drive.Controllers
             try
             {
                 _userRepository.Create(user);
-                await _mailerSendRepository.SendMailAsync(user.Email, user.UserName);
+                await _mailerSendRepository.SendMailAsync(user.Email, user.Username);
                 return Ok("Te has registrado correctamente!");
             }
             catch (Exception e)
