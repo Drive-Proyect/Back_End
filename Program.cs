@@ -21,6 +21,11 @@ builder.Services.AddDbContext<DriveContext>(options =>
     Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.20-mysql"))
 );
 
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IMailerSendRepository, MailerSendRepository>();
+
+
+builder.Services.AddHttpClient();
 var app = builder.Build();
 
 // Cors
