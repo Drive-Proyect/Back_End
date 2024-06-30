@@ -48,6 +48,7 @@ builder.Services.Configure<JwtSettings>(_jwtsettings);
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IMailerSendRepository, MailerSendRepository>();
+builder.Services.AddScoped<IFolderRepository, FolderRepository>();
 
 
 builder.Services.AddHttpClient();
