@@ -50,6 +50,7 @@ builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IFolderRepository, FolderRepository>();
 builder.Services.AddScoped<IMailerSendRepository, MailerSendRepository>();
+builder.Services.AddScoped<IFolderRepository, FolderRepository>();
 
 
 builder.Services.AddHttpClient();
