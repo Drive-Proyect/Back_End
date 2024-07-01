@@ -15,11 +15,12 @@ public class FolderRepository : IFolderRepository
         _context = context;
     }
 
-    public void Create(User user)
+  public void Create(Folder folder)
     {
-        _context.Users.Add(user);
+        folder.Status = "Active";
+        _context.Folders.Add(folder);
         _context.SaveChanges();
-    }
+    }   
 
     public IEnumerable<Folder> GetFolders()
     {

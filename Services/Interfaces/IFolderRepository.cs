@@ -8,5 +8,6 @@ namespace Drive.Services
         IEnumerable<Folder> GetFolders();
         void removepaper (Folder folder,int id);
         IEnumerable<Folder> Getpaperfolders();
+        public void Create(Folder folder);
     }
 }
