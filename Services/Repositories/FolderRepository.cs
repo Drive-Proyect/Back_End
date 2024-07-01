@@ -1,64 +1,61 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using Drive.Data;
 using Drive.Models;
-using Drive.Services;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http.HttpResults;
 
-namespace Drive.Controllers
+namespace Drive.Services;
+
+public class FolderRepository : IFolderRepository
 {
-    public class FoldersController : ControllerBase
+    private readonly DriveContext _context;
+
+    public FolderRepository(DriveContext context)
     {
-        private readonly IFolderRepository _folderRepository;
-        
+        _context = context;
+    }
 
-        public FoldersController(IFolderRepository userRepository)
+    public void Create(Folder folder)
+    {
+        folder.Status = "Active";
+        _context.Folders.Add(folder);
+        _context.SaveChanges();
+    }
+
+
+
+    public IEnumerable<Folder> GetFolders()
+    {
+        var folders = _context.Folders.Where(m=>m.Status == "Active").ToList();
+        if (folders.Any())
         {
-            _folderRepository = userRepository;
+            return folders;
         }
+        throw new Exception("No se puede traer las carpetas");
+    }
 
-        [HttpGet]
-        [Route("api/folders")]
-         public IActionResult GetFolders()
+    public IEnumerable<Folder> Getpaperfolders()
+    {
+        var folderspaper = _context.Folders.Where(m=>m.Status == "Inactive").ToList();
+        if (folderspaper.Any())
         {
-            try
-            {
-                var folders = _folderRepository.GetFolders();
-                if (folders.Count() <1)
-                {
-                    return BadRequest("No existen carpetas");
-                }
-                else
-                {
-                    return Ok(folders);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(203, new { message = ex.Message });
-            }
+            return folderspaper;
         }
-        [HttpGet]
-        [Route("api/paperfolders")]
-        public IActionResult GetPaperFolders()
-        {
-         
-            try
-            {
-                var foldersremove = _folderRepository.Getpaperfolders();
-                if (foldersremove.Count() <1)
-                {
-                    return BadRequest("No existen carpetas");
-                }
-                else
-                {
-                    return Ok(foldersremove);
-                }
+        throw new Exception("No se puede traer las carpetas");
+    }
 
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(203, new { message = ex.Message });
-            }   
+    public void removepaper(Folder folder, int id)
+    {
+        var folderremove = _context.Folders.FirstOrDefault(m => m.Id == id);
+        if (folderremove != null)
+        {
+            folderremove.Status = "Inactive";
+            _context.Folders.Update(folderremove);
+            _context.SaveChanges();
+        }
+        else
+        {
+            throw new Exception("No se encontro la carpeta");
         }
     }
 }
