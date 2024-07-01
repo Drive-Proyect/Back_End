@@ -21,15 +21,15 @@ public class Folder
 
     public decimal? CapacityMemory { get; set; }
 
-    [Required]
-    public required string Status { get; set; }
+    public string? Status { get; set; }
 
     [Required]
     public required int UserId { get; set; }
 
-    public User? User { get; set; }
+    // public User? User { get; set; }
 
     public int? FolderId { get; set; }
+
 
     Folder? ParentFolder { get; set; }
 }
