@@ -22,7 +22,8 @@ namespace Drive.Controllers
             try
             {
                 var folders = _folderRepository.GetFolders();
-                if (folders.Count() <1)
+
+                if (folders.Count() < 1)
                 {
                     return BadRequest("No existen carpetas");
                 }
@@ -37,6 +38,7 @@ namespace Drive.Controllers
                 return StatusCode(203, new { message = ex.Message });
             }
         }
+
         [HttpGet]
         [Route("api/paperfolders")]
         public IActionResult GetPaperFolders()
@@ -45,7 +47,8 @@ namespace Drive.Controllers
             try
             {
                 var foldersremove = _folderRepository.Getpaperfolders();
-                if (foldersremove.Count() <1)
+                
+                if (foldersremove.Count() < 1)
                 {
                     return BadRequest("No existen carpetas");
                 }
