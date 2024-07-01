@@ -22,8 +22,7 @@ builder.Services.AddDbContext<DriveContext>(options =>
     options.UseMySql(builder.Configuration.GetConnectionString("DriveConnection"),
     Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.20-mysql"))
 );
-//registro de las interfaces al contenedor de dependencias
-builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+
 
 //Jwt
 builder.Services.AddAuthentication(item =>
@@ -46,7 +45,10 @@ builder.Services.AddAuthentication(item =>
 var _jwtsettings = builder.Configuration.GetSection("JwtSettings");
 builder.Services.Configure<JwtSettings>(_jwtsettings);
 
+//registro de las interfaces al contenedor de dependencias
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IFolderRepository, FolderRepository>();
 builder.Services.AddScoped<IMailerSendRepository, MailerSendRepository>();
 builder.Services.AddScoped<IFolderRepository, FolderRepository>();
 

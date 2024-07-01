@@ -1,35 +1,64 @@
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
-using Drive.Data;
 using Drive.Models;
+using Drive.Services;
+using System.Threading.Tasks;
 
-namespace Drive.Services;
-
-public class FolderRepository : IFolderRepository
+namespace Drive.Controllers
 {
-    private readonly DriveContext _context;
-
-    public FolderRepository(DriveContext context)
+    public class FoldersController : ControllerBase
     {
-        _context = context;
-    }
+        private readonly IFolderRepository _folderRepository;
+        
 
-    public void Create(Folder folder)
-    {
-        folder.Status = "Active";
-        _context.Folders.Add(folder);
-        _context.SaveChanges();
-    }
-
-    public void ChangeStatus(int id)
-    {
-        var folder = _context.Folders.FirstOrDefault(f => f.Id == id);
-
-        if (folder != null)
+        public FoldersController(IFolderRepository userRepository)
         {
-            folder.Status = "Inactive";
-            _context.Update(folder);
-            _context.SaveChanges();
+            _folderRepository = userRepository;
+        }
+
+        [HttpGet]
+        [Route("api/folders")]
+         public IActionResult GetFolders()
+        {
+            try
+            {
+                var folders = _folderRepository.GetFolders();
+                if (folders.Count() <1)
+                {
+                    return BadRequest("No existen carpetas");
+                }
+                else
+                {
+                    return Ok(folders);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(203, new { message = ex.Message });
+            }
+        }
+        [HttpGet]
+        [Route("api/paperfolders")]
+        public IActionResult GetPaperFolders()
+        {
+         
+            try
+            {
+                var foldersremove = _folderRepository.Getpaperfolders();
+                if (foldersremove.Count() <1)
+                {
+                    return BadRequest("No existen carpetas");
+                }
+                else
+                {
+                    return Ok(foldersremove);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(203, new { message = ex.Message });
+            }   
         }
     }
 }

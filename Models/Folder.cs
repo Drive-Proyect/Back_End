@@ -30,5 +30,6 @@ public class Folder
 
     public int? FolderId { get; set; }
 
-    // public Folder? ParentFolder { get; set; }
+
+    Folder? ParentFolder { get; set; }
 }

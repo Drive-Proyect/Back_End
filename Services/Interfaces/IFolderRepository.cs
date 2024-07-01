@@ -5,8 +5,9 @@ namespace Drive.Services
 {
     public interface IFolderRepository
     {
-        public void Create(Folder folder);
+        IEnumerable<Folder> GetFolders();
+        void removepaper (Folder folder,int id);
+        IEnumerable<Folder> Getpaperfolders();
 
-        public void ChangeStatus(int id);
     }
 }
