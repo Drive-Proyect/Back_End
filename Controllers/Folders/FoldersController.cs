@@ -17,11 +17,11 @@ namespace Drive.Controllers
 
         [HttpGet]
         [Route("api/folders")]
-         public IActionResult GetFolders()
+         public IActionResult GetFolders(int id)
         {
             try
             {
-                var folders = _folderRepository.GetFolders();
+                var folders = _folderRepository.GetFolders(id);
                 if (folders.Count() <1)
                 {
                     return BadRequest("No existen carpetas");
@@ -39,12 +39,12 @@ namespace Drive.Controllers
         }
         [HttpGet]
         [Route("api/paperfolders")]
-        public IActionResult GetPaperFolders()
+        public IActionResult GetPaperFolders(int id)
         {
          
             try
             {
-                var foldersremove = _folderRepository.Getpaperfolders();
+                var foldersremove = _folderRepository.Getpaperfolders(id);
                 if (foldersremove.Count() <1)
                 {
                     return BadRequest("No existen carpetas");
