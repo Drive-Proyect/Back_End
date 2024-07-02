@@ -22,10 +22,11 @@ public class FolderRepository : IFolderRepository
         _context.SaveChanges();
     }
 
-    public IEnumerable<Folder> GetFolders()
-    {
-        var folders = _context.Folders.Where(m => m.Status == "Active").ToList();
 
+
+    public IEnumerable<Folder> GetFolders(int id)
+    {
+        var folders = _context.Folders.Where(m=>m.Status == "Active" && m.UserId == id ).ToList();
         if (folders.Any())
         {
             return folders;
@@ -33,10 +34,9 @@ public class FolderRepository : IFolderRepository
         throw new Exception("No se puede traer las carpetas");
     }
 
-    public IEnumerable<Folder> Getpaperfolders()
+    public IEnumerable<Folder> Getpaperfolders(int id)
     {
-        var folderspaper = _context.Folders.Where(m => m.Status == "Inactive").ToList();
-
+        var folderspaper = _context.Folders.Where(m=>m.Status == "Inactive" && m.UserId == id).ToList();
         if (folderspaper.Any())
         {
             return folderspaper;
@@ -44,14 +44,13 @@ public class FolderRepository : IFolderRepository
         throw new Exception("No se puede traer las carpetas");
     }
 
-    public void RemovePaper(Folder folder, int id)
+    public void removepaper(Folder folder, int id)
     {
-        var folderRemove = _context.Folders.FirstOrDefault(m => m.Id == id);
-        
-        if (folderRemove != null)
+        var folderremove = _context.Folders.FirstOrDefault(m => m.Id == id);
+        if (folderremove != null)
         {
-            folderRemove.Status = "Inactive";
-            _context.Folders.Update(folderRemove);
+            folderremove.Status = "Inactive";
+            _context.Folders.Update(folderremove);
             _context.SaveChanges();
         }
         else

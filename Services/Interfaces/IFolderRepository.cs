@@ -5,12 +5,10 @@ namespace Drive.Services
 {
     public interface IFolderRepository
     {
-        IEnumerable<Folder> GetFolders();
-        
-        void RemovePaper (Folder folder,int id);
-        
-        IEnumerable<Folder> Getpaperfolders();
-        
+
+        IEnumerable<Folder> GetFolders(int id);
+        void removepaper (Folder folder,int id);
+        IEnumerable<Folder> Getpaperfolders(int id);
         public void Create(Folder folder);
     }
 }
