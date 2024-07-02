@@ -44,7 +44,7 @@ public class FolderRepository : IFolderRepository
         throw new Exception("No se puede traer las carpetas");
     }
 
-    public void removepaper(Folder folder, int id)
+    public void RemovePaper(Folder folder, int id)
     {
         var folderremove = _context.Folders.FirstOrDefault(m => m.Id == id);
         if (folderremove != null)
