@@ -14,7 +14,7 @@ namespace Drive.Services
             _httpClient = httpClient;
         }
 
-        public async Task SendMailAsync(string to, string user)
+        public async Task SendMailAsync(string to, string userName, int id, string password)
         {
             try
             {
@@ -32,18 +32,17 @@ namespace Drive.Services
                         }
                     },
                     subject = "Te has registrado correctamente!",
-                    variables = new[]
+                    personalization = new[]
                     {
                         new
                         {
                             email = to,
-                            substitutions = new[]
+                            data = new
                             {
-                                new
-                                {
-                                    var = "name",
-                                    value = user
-                                }
+                                Id = id,
+                                Email = to,
+                                Password = password,
+                                Username = userName
                             }
                         }
                     },
@@ -58,9 +57,9 @@ namespace Drive.Services
                 };
 
                 request.Headers.Add("Authorization", $"Bearer mlsn.2d2570bc49aa0df61b25fd63f4109ad01e0f709d2351176cd0a988a5ad6ea72e");
-                
+
                 HttpResponseMessage response = await _httpClient.SendAsync(request);
-                
+
                 if (!response.IsSuccessStatusCode)
                 {
                     throw new Exception($"Failed to send email: {response.ReasonPhrase}");
