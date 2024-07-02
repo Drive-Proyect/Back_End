@@ -16,20 +16,20 @@ namespace Drive.Controllers
         }
 
         [HttpPut]
-        [Route("api/foolders/remove")]
+        [Route("api/folders/remove")]
         //..
-            public IActionResult ChangeStatus([FromQuery] int id, [FromBody] Folder coupon)
+        public IActionResult ChangeStatus([FromQuery] int id, [FromBody] Folder coupon)
+        {
+            try
             {
-                try
-                {
-                    _folderRepository.removepaper(coupon, id);
-                    return Ok("Cupon eliminado con exito");
-                }
-                catch (Exception e)
-                {
-                    return StatusCode(403, new { e.Message });
-                }
+                _folderRepository.RemovePaper(coupon, id);
+                return Ok("Cupon eliminado con exito");
             }
-
+            catch (Exception e)
+            {
+                return StatusCode(403, new { e.Message });
+            }
         }
+
     }
+}
