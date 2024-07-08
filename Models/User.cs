@@ -16,7 +16,7 @@ public class User
     [Required]
     public required string Password { get; set; }
 
-    public List<Folder>? Folders { get; set; }
+    // public List<Folder>? Folders { get; set; }
 
-    public List<Filee>? Files { get; set; }
+    // public List<Filee>? Files { get; set; }
 }
