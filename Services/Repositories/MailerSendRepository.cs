@@ -2,6 +2,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System;
 
 namespace Drive.Services
 {
@@ -56,18 +57,20 @@ namespace Drive.Services
                     Content = new StringContent(body, Encoding.UTF8, "application/json")
                 };
 
-                request.Headers.Add("Authorization", $"Bearer mlsn.2d2570bc49aa0df61b25fd63f4109ad01e0f709d2351176cd0a988a5ad6ea72e");
+                request.Headers.Add("Authorization", "Bearer mlsn.62af81129fc3e2c79d3f5304c06d9fa3781d06b478f80afdbce3d6c23e0e2aec");
 
                 HttpResponseMessage response = await _httpClient.SendAsync(request);
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    throw new Exception($"Failed to send email: {response.ReasonPhrase}");
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    throw new Exception($"Failed to send email: {response.ReasonPhrase}. Details: {responseContent}");
                 }
             }
             catch (HttpRequestException ex)
             {
                 Console.WriteLine($"Error al enviar el correo: {ex.Message}");
+                throw;
             }
         }
     }

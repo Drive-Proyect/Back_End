@@ -5,6 +5,6 @@ namespace Drive.Services
 {
     public interface IUserRepository
     {
-        public void Create(User user);
+        public Task Create(User user);
     }
 }
