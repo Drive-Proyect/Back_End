@@ -21,7 +21,7 @@ namespace Drive.Services
 {
     public class AuthRepository : IAuthRepository
     {
-        private readonly DriveContext  _context;
+        private readonly DriveContext _context;
         private readonly JwtSettings _jwtSettings;
 
         public AuthRepository(DriveContext context, IOptions<JwtSettings> options)
@@ -37,8 +37,8 @@ namespace Drive.Services
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()), 
-                new Claim(JwtRegisteredClaimNames.Sub, user.Username),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 // new Claim(ClaimTypes.Role, user.Rol)
             };
@@ -59,14 +59,20 @@ namespace Drive.Services
             throw new NotImplementedException();
         }
 
-        public User Login(string UserName, string Password)
+        public User Login(string email, string Password)
         {
-            Console.WriteLine("AQUI---------------!!!!!" );
-            Console.WriteLine(UserName);
+            Console.WriteLine("AQUI---------------!!!!!");
+            Console.WriteLine(email);
+
+            if (string.IsNullOrEmpty(email))
+            {
+                return null; // 
+            }
+
             //var user = _context.MarketingUsers.FirstOrDefault(u => u.Username == Username);
-            var user = _context.Users.FirstOrDefault(u => u.Username == UserName);
-            
-            if (user != null &&  user.Password == Password)
+            var user = _context.Users.FirstOrDefault(u => u.Email.ToLower() == email.ToLower());
+
+            if (user != null && user.Password.ToLower() == Password.ToLower())
             {
                 return user;
             }
