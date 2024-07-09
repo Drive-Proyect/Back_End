@@ -24,7 +24,7 @@ namespace Drive.Controllers.Auth
         //    var p =  _authRepository.LoginAsyn(userCred.username, userCred.password);
         // }
 
-        [HttpPost("login")]
+        [HttpPost]
         [Route("api/login")]
         public IActionResult LoginUser ([FromBody] UserCred usercred)
         {
@@ -38,7 +38,7 @@ namespace Drive.Controllers.Auth
                 }
 
                 var tokenString = _authRepository.GenerateToken(user);
-                return Ok(new { token = tokenString });
+                return Ok(new { token = tokenString, userId = user.Id, userName = user.Username, email = user.Email });
             }
             catch (Exception e)
             {
