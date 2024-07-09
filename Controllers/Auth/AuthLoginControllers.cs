@@ -24,15 +24,16 @@ namespace Drive.Controllers.Auth
         //    var p =  _authRepository.LoginAsyn(userCred.username, userCred.password);
         // }
 
-        [HttpPost]
+        [HttpPost("login")]
         [Route("api/login")]
         public IActionResult LoginUser ([FromBody] UserCred usercred)
         {
             try 
             {
-                var user = _authRepository.Login(usercred.username, usercred.password);
+                var user = _authRepository.Login(usercred.Email, usercred.Password);
                 if (user == null)
-                {
+                {   
+                    //.
                     return Unauthorized("Credenciales invalidas");
                 }
 
