@@ -31,17 +31,17 @@ builder.Services.AddAuthentication(item =>
         item.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
     }).AddJwtBearer(item =>
     {
-    item.RequireHttpsMetadata = true;
-    item.SaveToken = true;
-    item.TokenValidationParameters = new TokenValidationParameters()
-    {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("gSI=eFk4G3ZRy`(Kg£+<X(1VI4)5=RKw")),
-        ValidateIssuer = false,
-        ValidateAudience = false,
-        ClockSkew=TimeSpan.Zero
-    };
-});
+        item.RequireHttpsMetadata = true;
+        item.SaveToken = true;
+        item.TokenValidationParameters = new TokenValidationParameters()
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("gSI=eFk4G3ZRy`(Kg£+<X(1VI4)5=RKw")),
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ClockSkew = TimeSpan.Zero
+        };
+    });
 var _jwtsettings = builder.Configuration.GetSection("JwtSettings");
 builder.Services.Configure<JwtSettings>(_jwtsettings);
 
@@ -57,12 +57,8 @@ var app = builder.Build();
 // Cors
 app.UseCors("AllowAnyOrigin");
 
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 //Permisos para el JWT del dataConection
 app.UseAuthentication();
