@@ -16,7 +16,7 @@ namespace Drive.Controllers
         }
 
         [HttpGet]
-        [Route("api/folders")]
+        [Route("api/folders/{id}")]
          public IActionResult GetFolders(int id)
         {
             try
